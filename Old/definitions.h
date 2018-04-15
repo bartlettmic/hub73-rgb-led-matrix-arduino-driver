@@ -5,7 +5,7 @@
 #define WIDTH 32
 #define HEIGHT 32
 
-extern int16_t matrix[HEIGHT][WIDTH];
-extern int16_t ticks;
+//extern int16_t matrix[HEIGHT][WIDTH];
+//extern int16_t ticks;
 
 #endif

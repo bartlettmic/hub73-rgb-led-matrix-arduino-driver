@@ -3,11 +3,11 @@
 #include "definitions.h"
 #include "utility.h"
 
-void fluidDraw() {
+void fluidDraw(int16_t matrix[32][32]) {
   
 }
 
-void fluidSetup() {
+void fluidSetup(int16_t matrix[32][32]) {
   for (byte y=0; y < HEIGHT; y++) {
     for (byte x=0; x < WIDTH; x++) {
       randomSeed(analogRead(0) * analogRead(1) * analogRead(2));
