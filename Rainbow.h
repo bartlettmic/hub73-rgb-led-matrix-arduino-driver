@@ -2,10 +2,11 @@
 #include "Definitions.h"
 #include "Utility.h"
 
+extern int16_t matrix[HEIGHT][WIDTH];
 
 namespace Rainbow {
 
-void draw(int16_t matrix[HEIGHT][WIDTH]) {
+void draw() {
   for (byte y = 0; y < HEIGHT; y++) {
 
     byte count = 0;
@@ -29,7 +30,8 @@ void draw(int16_t matrix[HEIGHT][WIDTH]) {
   delay(30);
 }
 
-void setup(int16_t matrix[HEIGHT][WIDTH]) {
+void setup() {
+  memset(matrix, 0, sizeof(matrix));
   for (byte y = 0; y < HEIGHT; y++) {
     byte dy = y << 2;
     for (byte x = 0; x < WIDTH; x++) {

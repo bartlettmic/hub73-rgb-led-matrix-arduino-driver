@@ -3,12 +3,24 @@
 #include "Demos.h"
 #include <EEPROM.h>
 
-volatile byte mode = 1;
+volatile byte mode = 0;
+volatile byte buttonTicks = 1;
 
-int16_t ticks = 65535;
+uint16_t ticks = 65535;
+
+
+void BUTTON_ISR(void) {
+  delay(1);
+  if (!++buttonTicks) {
+    ++buttonTicks;
+    ++mode %= sizeof(demoLoops) / sizeof(*demoLoops);    
+    draw = demoLoops[mode];
+    demoSetups[mode]();
+  }
+}
 
 void setup() {
-//  Serial.begin(38400);
+  //  Serial.begin(38400);
 
   const uint8_t PINS[] = {  //  76543210
     2,  3,  4,  5,  6,  7,  //D BGRBGR✕✕ Row 0-1
@@ -18,6 +30,10 @@ void setup() {
   };
   for (auto pin : PINS) pinMode(pin, OUTPUT);
 
+  pinMode(12, INPUT);   // Mode change button
+  attachInterrupt(digitalPinToInterrupt(12), BUTTON_ISR, LOW);
+
+
   matrixSetup();
 
   MPU.setup(22, 23);
@@ -25,10 +41,11 @@ void setup() {
   //  mode = EEPROM.read(0);
   //  EEPROM.write(0, ((mode+1) % (sizeof(drawModes)/sizeof(*drawModes))));
 
-  demoSetups[mode](matrix);
+  demoSetups[mode]();
   draw = demoLoops[mode];
 }
 
 void loop() {
-  draw(matrix);
+  draw();
+  ticks++;
 }

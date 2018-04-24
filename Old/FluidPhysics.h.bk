@@ -9,7 +9,7 @@ extern int16_t matrix[HEIGHT][WIDTH];
 extern MPU6050 MPU;
 extern uint16_t ticks;
 
-namespace Fluid {
+namespace FluidPhysics {
 
 
 

@@ -21,10 +21,12 @@ void matrixSetup() {
   FTM0_CNT = 0;   //Reset counter
   FTM0_MOD = 256; //Set initial tick-amount to wait
   FTM0_SC = 0b011001111;
-  NVIC_SET_PRIORITY(IRQ_FTM0, 128);
+  NVIC_SET_PRIORITY(IRQ_FTM0, 64);
   NVIC_ENABLE_IRQ(IRQ_FTM0);
 
 }
+
+
 
 extern void ftm0_isr(void) {
   PORTB = 0b10000;

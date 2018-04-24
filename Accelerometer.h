@@ -15,8 +15,10 @@ void MPU6050::read() {
   si.i2c_start((MPU6050_ADDRESS_AD0_LOW << 1) | I2C_WRITE);
   si.i2c_write(MPU6050_RA_ACCEL_XOUT_H);
   si.i2c_rep_start((MPU6050_ADDRESS_AD0_LOW << 1) | I2C_READ);
-  raw[1] = int16_t(si.i2c_read(false) << 8 | si.i2c_read(false)) / -3000;
-  raw[0] = int16_t(si.i2c_read(false) << 8 | si.i2c_read(true)) / 2500;
+  raw[1] = int16_t(si.i2c_read(false) << 8 | si.i2c_read(false)) * -1;
+  raw[0] = int16_t(si.i2c_read(false) << 8 | si.i2c_read(true));
+  precise[0] = float(raw[0]);
+  precise[1] = float(raw[1]);
   si.i2c_stop();
 }
 

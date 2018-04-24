@@ -3,7 +3,20 @@
 
 #include "Rainbow.h"
 #include "Fluid.h"
+#include "Pong.h"
 
-void (*draw)(int16_t matrix[HEIGHT][WIDTH]);
-void (*demoSetups[])(int16_t matrix[HEIGHT][WIDTH]) =  { Rainbow::setup, Fluid::setup };
-void (*demoLoops[])(int16_t matrix[HEIGHT][WIDTH]) =   { Rainbow::draw,  Fluid::draw  };
+void (*draw)();
+
+void (*demoSetups[])() =  {
+  Rainbow::setup,
+  Fluid::setup,
+  Pong::setup,
+  Pong::setup
+};
+
+void (*demoLoops[])() =   {
+  Rainbow::draw,
+  Fluid::draw,
+  Pong::draw,
+  Pong::draw
+};
