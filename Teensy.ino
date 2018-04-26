@@ -9,15 +9,18 @@ volatile byte buttonTicks = 1;
 uint16_t ticks = 65535;
 
 
-void BUTTON_ISR(void) {
-  delay(1);
-  if (!++buttonTicks) {
-    ++buttonTicks;
-    ++mode %= sizeof(demoLoops) / sizeof(*demoLoops);    
-    draw = demoLoops[mode];
-    demoSetups[mode]();
-  }
-}
+//void BUTTON_ISR(void) {
+//  delay(1);
+//  if (!++buttonTicks) {
+//    ++buttonTicks;
+//    ++mode %= sizeof(demoLoops) / sizeof(*demoLoops);
+//
+//    for (int16_t* p = matrix[0]; p < &matrix[HEIGHT - 1][WIDTH - 1]; ++p) *p = 0;
+//
+//    draw = demoLoops[mode];
+//    demoSetups[mode]();
+//  }
+//}
 
 void setup() {
   //  Serial.begin(38400);
@@ -30,16 +33,16 @@ void setup() {
   };
   for (auto pin : PINS) pinMode(pin, OUTPUT);
 
-  pinMode(12, INPUT);   // Mode change button
-  attachInterrupt(digitalPinToInterrupt(12), BUTTON_ISR, LOW);
+  //  pinMode(12, INPUT);   // Mode change button
+  //  attachInterrupt(digitalPinToInterrupt(12), BUTTON_ISR, LOW);
 
 
   matrixSetup();
 
   MPU.setup(22, 23);
 
-  //  mode = EEPROM.read(0);
-  //  EEPROM.write(0, ((mode+1) % (sizeof(drawModes)/sizeof(*drawModes))));
+  mode = EEPROM.read(0);
+  EEPROM.write(0, ((mode + 1) % (sizeof(drawModes) / sizeof(*drawModes))));
 
   demoSetups[mode]();
   draw = demoLoops[mode];

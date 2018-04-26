@@ -119,9 +119,8 @@ void setup() {
     //    if (!(++x &= WIDTH - 1)) ++y;
 
 
-    int16_t color = 0;
-//    color = RGBsmash(rainbow(color - 170), rainbow(color - 85), rainbow(color)) >> 1;
-
+    int16_t color = 80;
+    color = RGBsmash(rainbow(color - 170), rainbow(color - 85), rainbow(color)) >> 1;
     color &= ~(POPULATION - 1);
     color |= id;              // Store ID in Frame Buffer with Steganography
 

@@ -23,28 +23,30 @@ struct Dot {
   bool pong = false;
 
   void reset(void) {
+    left = !left;
     x = byte(WIDTH / 2);
     y = byte(HEIGHT / 2);
-    X = (WIDTH / 2) * SUBPIXEL_PRECISION;
-    Y = (HEIGHT / 2) * SUBPIXEL_PRECISION;
+    X = (WIDTH / 2) << SUBPIXEL_SHIFTS;
+    Y = (HEIGHT / 2) << SUBPIXEL_SHIFTS;
     dx = left ? -50 : 50;
-    dy = -3;
+    dy = -3;    
   }
 
   bool update(void) {
 
-    byte _x = (X + dx) / SUBPIXEL_PRECISION;
+    byte _x = (X + dx) >> SUBPIXEL_SHIFTS;
     left = _x < 1;
     bool changedX = left || _x > WIDTH - 2;
     if (changedX) {
-      x = !pong ? left ? WIDTH - 1 : 0 : (X + (dx *= -1))/SUBPIXEL_PRECISION;
-      X = x * SUBPIXEL_PRECISION;
+      if (pong) x = (X + (dx *= -1)) >> SUBPIXEL_SHIFTS;
+      else x = left ? (WIDTH-1) : 1;
+      X = x << SUBPIXEL_SHIFTS;
     }
     else x = _x;
     X += dx;
 
-   byte _y = (Y + dy) / SUBPIXEL_PRECISION;
-    if (_y < 0 || _y >= HEIGHT) y = (Y + (dy *= -1)) / SUBPIXEL_PRECISION;
+   byte _y = (Y + dy) >> SUBPIXEL_SHIFTS;
+    if (_y < 0 || _y >= HEIGHT) y = (Y + (dy *= -1)) >> SUBPIXEL_SHIFTS;
     else y = _y;
     Y += dy;
 
@@ -63,19 +65,17 @@ void draw() {
 
   matrix[ball.y][ball.x] = 0; // Clear last pixel position
 
-  if (ball.update()) {
-    if (ball.left) {
-      if (!matrix[ball.y][0]) {
-        delay(1000);
-        ball.reset();
-      }
-    }
-    else {
-      if (!matrix[ball.y][WIDTH - 1]) {
-        delay(1000);
-        ball.reset();
-      }
-    }
+  bool reset = false;
+
+  if (ball.update()) {    
+    if (ball.left && !matrix[ball.y][0]) reset = true;
+    else if (!matrix[ball.y][WIDTH - 1]) reset = true;
+  }
+
+  if (reset) {
+    spiralFill(matrix, 0b0000010000000000, 10, true, false);
+    spiralFill(matrix, 0, 10, false, false);
+    ball.reset();
   }
 
   matrix[ball.y][ball.x] = ballcolor;
@@ -89,12 +89,15 @@ void draw() {
   for ( ; p < HEIGHT; p++) matrix[p][0] = 0, matrix[p][WIDTH - 1] = 0;
 }
 
-void setup() {
+void setup(bool pong=true) {
   //  Serial.begin(38400);
   memset(matrix, 0, sizeof(matrix));  
   ball.reset();
-  ball.pong = !ball.pong;
+  ball.pong = pong;
 }
+
+void setup_pong() {   setup(true);  }
+void setup_portal() { setup(false); }
 
 }
 
