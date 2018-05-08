@@ -1,6 +1,6 @@
 #pragma once
-#include "Definitions.h"
-#include "Utility.h"
+// #include "../Definitions.h"
+// #include "../Utility.h"
 
 #define PONG_MPU_SENSITIVITY 200
 #define PADDLE_SIZE 12
@@ -83,8 +83,8 @@ void draw() {
   }
 
   if (reset) {
-    spiralFill(0b0000010000000000, 10, true, false);
-    spiralFill(0, 10, false, false);
+    fillSpiral(0b0000010000000000, 10, true, false);
+    fillSpiral(0, 10, false, false);
     ball.reset();
   }
 

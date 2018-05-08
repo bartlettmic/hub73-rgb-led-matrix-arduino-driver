@@ -1,13 +1,13 @@
 #pragma once
-#include "Definitions.h"
-#include "Utility.h"
+// #include "../Definitions.h"
+// #include "../Utility.h"
 
 extern int16_t matrix[HEIGHT][WIDTH];
 
 namespace Rainbow {
 
 void init() {
-  memset(matrix, 0, sizeof(matrix));
+  fillMatrix(0);
   for (byte y = 0; y < HEIGHT; y++) {
     byte dy = y << 2;
     for (byte x = 0; x < WIDTH; x++) {

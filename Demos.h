@@ -1,12 +1,12 @@
 #pragma once
-#include "Definitions.h"
 
-#include "Rainbow.h"
-#include "Fluid.h"
-#include "Pong.h"
-#include "Snake.h"
-#include "EtchASketch.h"
-#include "Tetris.h"
+#include "Demos/Rainbow.h"
+#include "Demos/Fluid.h"
+#include "Demos/Pong.h"
+#include "Demos/Snake.h"
+#include "Demos/EtchASketch.h"
+#include "Demos/Compass.h"
+#include "Demos/Cube.h"
 
 void (*draw)();
 
@@ -17,7 +17,8 @@ void (*demoSetups[])() =  {
   Pong::init_portal,
   Snake::init,
   EtchASketch::init,
-  Tetris::init,
+  Compass::init,
+  Cube::init,
 };
 
 void (*demoLoops[])() =   {
@@ -27,5 +28,6 @@ void (*demoLoops[])() =   {
   Pong::draw,
   Snake::draw,
   EtchASketch::draw,
-  Tetris::draw,
+  Compass::draw,
+  Cube::draw,
 };

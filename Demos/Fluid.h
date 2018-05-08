@@ -1,6 +1,6 @@
 #pragma once
-#include "Definitions.h"
-#include "Utility.h"
+// #include "../Definitions.h"
+// #include "../Utility.h"
 
 #define POPULATION 256 // Must be a power of 2 or things will break :^)
 #define TERMINAL_VELOCITY 32

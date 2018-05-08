@@ -1,10 +1,13 @@
-#include "Matrix.h"
-#include "Accelerometer.h" //TO-DO Combine these into "Inputs.h"
-#include "Trimpots.h"
+#include "Definitions.h"
+#include "Hardware/Matrix.h"
+#include "Hardware/Accelerometer.h" //TO-DO Combine these into "Inputs.h"
+#include "Hardware/Trimpots.h"
+#include "Utility.h"
+
 #include "Demos.h"
 //#include <EEPROM.h>
 
-byte mode = 6;
+byte mode = 7;
 //volatile byte buttonTicks = 1;
 
 uint16_t ticks = 65535;

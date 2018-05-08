@@ -1,6 +1,6 @@
 #pragma once
-#include "Definitions.h"
-#include "Utility.h"
+// #include "Definitions.h"
+// #include "Utility.h"
 extern int16_t matrix[HEIGHT][WIDTH];
 extern MPU6050 MPU;
 
@@ -45,8 +45,8 @@ void draw() {
   }
 
 //  else {  // Bad Ouroboros!
-//    spiralFill(matrix, 0b0000010000000000, 10, true);
-//    spiralFill(matrix, 0, 10, false);
+//    fillSpiral(matrix, 0b0000010000000000, 10, true);
+//    fillSpiral(matrix, 0, 10, false);
 //    X = WIDTH / 2;
 //    Y = HEIGHT / 2;
 //    length=1;

@@ -1,12 +1,11 @@
 #pragma once
-#include "Definitions.h"
-#include "Utility.h"
+
 extern int16_t matrix[HEIGHT][WIDTH];
 extern uint16_t ticks;
 extern MPU6050 MPU;
 extern trimpots knobs;
 
-namespace Tetris {
+namespace Compass {
 
 void init() {
   memset(matrix, 0, sizeof(matrix));

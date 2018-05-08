@@ -24,6 +24,10 @@ static inline int8_t sgn(int val) {
   return 1;
 }
 
+void fillMatrix(int16_t color) {
+  memset(matrix, color, sizeof(matrix));
+}
+
 void line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, const int16_t color) {
   int32_t dy = y1 - y0, dx = x1 - x0, gradient, x, y, shift = 0x10;
 
@@ -83,7 +87,7 @@ void fillCircle(uint8_t x0, uint8_t y0, uint8_t radius, int16_t color) {
 }
 
 
-void spiralFill(int16_t color, uint8_t t_delay, bool outward = true, bool complete = true) {
+void fillSpiral(int16_t color, uint8_t t_delay, bool outward = true, bool complete = true) {
 
   //https://stackoverflow.com/questions/1183013/spiral-algorithm-in-c-sharp#1183030
 
