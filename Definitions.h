@@ -5,3 +5,4 @@
 
 #define SUBPIXEL_PRECISION 1024 // = 65536 / 32
 #define SUBPIXEL_SHIFTS 10      // log_2(1024) = 10 i.e. 1 << 10 == 1024
+

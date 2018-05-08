@@ -1,37 +1,26 @@
 #include "Matrix.h"
-#include "Accelerometer.h"
+#include "Accelerometer.h" //TO-DO Combine these into "Inputs.h"
+#include "Trimpots.h"
 #include "Demos.h"
-#include <EEPROM.h>
+//#include <EEPROM.h>
 
-volatile byte mode = 0;
-volatile byte buttonTicks = 1;
+byte mode = 6;
+//volatile byte buttonTicks = 1;
 
 uint16_t ticks = 65535;
 
-
-//void BUTTON_ISR(void) {
-//  delay(1);
-//  if (!++buttonTicks) {
-//    ++buttonTicks;
-//    ++mode %= sizeof(demoLoops) / sizeof(*demoLoops);
-//
-//    for (int16_t* p = matrix[0]; p < &matrix[HEIGHT - 1][WIDTH - 1]; ++p) *p = 0;
-//
-//    draw = demoLoops[mode];
-//    demoSetups[mode]();
-//  }
-//}
-
 void setup() {
-  //  Serial.begin(38400);
+//    Serial.begin(38400);
 
   const uint8_t PINS[] = {  //  76543210
     2,  3,  4,  5,  6,  7,  //D BGRBGR✕✕ Row 0-1
     14, 15, 16, 17, 18, 19, //C ✕✕BGRBGR Row 2-3
-    8,  9,  10, 11,         //B ✕✕✕✕LABC
-    20, 13                  //⌚, OE
+    8,  9,  10, 11, 12, 13  //B ✕✕~⌚LABC
   };
   for (auto pin : PINS) pinMode(pin, OUTPUT);
+
+  pinMode(20, INPUT);
+  pinMode(21, INPUT);
 
   //  pinMode(12, INPUT);   // Mode change button
   //  attachInterrupt(digitalPinToInterrupt(12), BUTTON_ISR, LOW);
@@ -41,8 +30,8 @@ void setup() {
 
   MPU.setup(22, 23);
 
-  mode = EEPROM.read(0);
-  EEPROM.write(0, ((mode + 1) % (sizeof(drawModes) / sizeof(*drawModes))));
+//  mode = EEPROM.read(0);
+//  EEPROM.write(h0, ((mode + 1) % (sizeof(demoLoops) / sizeof(*demoLoops))));
 
   demoSetups[mode]();
   draw = demoLoops[mode];

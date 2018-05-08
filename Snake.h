@@ -4,16 +4,24 @@
 extern int16_t matrix[HEIGHT][WIDTH];
 extern MPU6050 MPU;
 
-namespace Snake {
+namespace Snake {                                                       //TO-DO Fix this, make snake loop, stop on body collision
 
 int8_t dX = 0, dY = 0, X = WIDTH / 2, Y = HEIGHT / 2, fruit[2];
 int16_t length = 5;
 
+void init() {
+  do {
+    srand(micros());
+    fruit[0] = random(WIDTH);
+    fruit[1] = random(HEIGHT);
+  } while (matrix[fruit[1]][fruit[0]]);
+}
+
 void draw() {
   MPU.read();
-  dX = MPU.raw[0] > 1000 ? 1 : MPU.raw[0] < -1000 ? -1 : 0;
-  dY = MPU.raw[1] > 1000 ? 1 : MPU.raw[1] < -1000 ? -1 : 0;
-  bool _4way = abs(MPU.raw[0]) > abs(MPU.raw[1]);
+  dX = MPU.ax > 1000 ? 1 : MPU.ax < -1000 ? -1 : 0;
+  dY = MPU.ay > 1000 ? 1 : MPU.ay < -1000 ? -1 : 0;
+  bool _4way = abs(MPU.ax) > abs(MPU.ay);
   dX = _4way ? dX : 0;
   dY = _4way ? 0 : dY;
   byte x = X + dX;
@@ -32,7 +40,7 @@ void draw() {
   else if (X == fruit[0] && Y == fruit[1]) {
     matrix[Y][X] = length << 5;  //Place new snake head
     length++; //Increase snake length
-    setup();  //Place new fruit
+    init();  //Place new fruit
     return;   //Don't blank any snake parts
   }
 
@@ -42,20 +50,11 @@ void draw() {
 //    X = WIDTH / 2;
 //    Y = HEIGHT / 2;
 //    length=1;
-//    setup();
+//    init();
 //  }
   
   delay(100);
 }
-
-void setup() {
-  do {
-    srand(analogRead(0));
-    fruit[0] = random(WIDTH);
-    fruit[1] = random(HEIGHT);
-  } while (matrix[fruit[1]][fruit[0]]);
-}
-
 
 }
 

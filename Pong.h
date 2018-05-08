@@ -61,6 +61,16 @@ struct Dot {
 
 } ball;
 
+void init(bool pong=true) {
+  //  Serial.begin(38400);
+  memset(matrix, 0, sizeof(matrix));  
+  ball.reset();
+  ball.pong = pong;
+}
+
+void init_pong() {   init(true);  }
+void init_portal() { init(false); }
+
 void draw() {
 
   matrix[ball.y][ball.x] = 0; // Clear last pixel position
@@ -73,31 +83,21 @@ void draw() {
   }
 
   if (reset) {
-    spiralFill(matrix, 0b0000010000000000, 10, true, false);
-    spiralFill(matrix, 0, 10, false, false);
+    spiralFill(0b0000010000000000, 10, true, false);
+    spiralFill(0, 10, false, false);
     ball.reset();
   }
 
   matrix[ball.y][ball.x] = ballcolor;
 
   MPU.read();
-  byte cy = constrain(max(MPU.raw[1], 0) / PONG_MPU_SENSITIVITY, HALF_PADDLE_SIZE, HEIGHT - HALF_PADDLE_SIZE);
+  byte cy = constrain(max(MPU.ay, 0) / PONG_MPU_SENSITIVITY, HALF_PADDLE_SIZE, HEIGHT - HALF_PADDLE_SIZE);
 
   byte p = 0;
   for ( ; p < cy - HALF_PADDLE_SIZE; p++) matrix[p][0] = 0, matrix[p][WIDTH - 1] = 0;
   for ( ; p < cy + HALF_PADDLE_SIZE; p++) matrix[p][0] = ball.pong ? ballcolor : p1portal, matrix[p][WIDTH - 1] = ball.pong ? ballcolor : p2portal;
   for ( ; p < HEIGHT; p++) matrix[p][0] = 0, matrix[p][WIDTH - 1] = 0;
 }
-
-void setup(bool pong=true) {
-  //  Serial.begin(38400);
-  memset(matrix, 0, sizeof(matrix));  
-  ball.reset();
-  ball.pong = pong;
-}
-
-void setup_pong() {   setup(true);  }
-void setup_portal() { setup(false); }
 
 }
 

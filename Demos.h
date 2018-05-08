@@ -5,15 +5,19 @@
 #include "Fluid.h"
 #include "Pong.h"
 #include "Snake.h"
+#include "EtchASketch.h"
+#include "Tetris.h"
 
 void (*draw)();
 
 void (*demoSetups[])() =  {
-  Rainbow::setup,
-  Fluid::setup,
-  Pong::setup_pong,
-  Pong::setup_portal,
-  Snake::setup,  
+  Rainbow::init,
+  Fluid::init,
+  Pong::init_pong,
+  Pong::init_portal,
+  Snake::init,
+  EtchASketch::init,
+  Tetris::init,
 };
 
 void (*demoLoops[])() =   {
@@ -22,4 +26,6 @@ void (*demoLoops[])() =   {
   Pong::draw,
   Pong::draw,
   Snake::draw,
+  EtchASketch::draw,
+  Tetris::draw,
 };

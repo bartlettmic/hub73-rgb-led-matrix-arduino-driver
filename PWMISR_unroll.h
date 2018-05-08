@@ -25,8 +25,8 @@
                 (Gmask & rgb3 ? 16 : 0) |\
                 (Bmask & rgb3 ? 32 : 0)\
                 ;\
-  digitalWriteFast(20, HIGH);\
-  digitalWriteFast(20, LOW);\
+  digitalWriteFast(12, HIGH);\
+  digitalWriteFast(12, LOW);\
 
 #define columnsin\
   clockin(0) clockin(1) clockin(2) clockin(3) clockin(4) clockin(5) clockin(6) clockin(7)\

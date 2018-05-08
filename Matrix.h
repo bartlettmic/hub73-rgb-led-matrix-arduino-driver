@@ -29,7 +29,7 @@ void matrixSetup() {
 
 
 extern void ftm0_isr(void) {
-  PORTB = 0b10000;
+//  PORTB = 0b00000;
   if (!(wait <<= 1)) {
     // 8 4 2 1
     wait = 8;     //Wait twice as long with overflow
@@ -46,10 +46,13 @@ extern void ftm0_isr(void) {
 
   uint16_t rgb0, rgb1, rgb2, rgb3;
 
-  PORTB |= abc; // ABC↺ L↓
+  PORTB = abc; // ABC↺ L↓
 
   // Unrolled pre-processing directives
   columnsin
+
+  PORTD = 0;
+  PORTC = 0;
 
   FTM0_MOD = wait << 1;    //Modulate ticks to new wait-tick amount
   FTM0_SC |= (1 << 7);       //Clear interupt flag
