@@ -7,6 +7,7 @@
 #include "Demos/EtchASketch.h"
 #include "Demos/Compass.h"
 #include "Demos/Cube.h"
+#include "Demos/Tree.h"
 
 void (*draw)();
 
@@ -19,6 +20,7 @@ void (*demoSetups[])() =  {
   EtchASketch::init,
   Compass::init,
   Cube::init,
+  Tree::init,
 };
 
 void (*demoLoops[])() =   {
@@ -30,4 +32,5 @@ void (*demoLoops[])() =   {
   EtchASketch::draw,
   Compass::draw,
   Cube::draw,
+  Tree::draw,
 };

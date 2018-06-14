@@ -1,6 +1,5 @@
 #pragma once
-#define SHAPE_SIZE 450
-#define ROTATION_SPEED 0 // ms delay between cube draws
+#define CUBE_SIZE 450
 #define CUBE_COLOR 0b0000000000100001
 
 extern trimpots knobs;
@@ -43,8 +42,8 @@ void draw() {
 		float ay = sin(r[2])*px3 + cos(r[2])*py3;
 		float az = pz3-150;
 
-		p2x[i] = WIDTH/2+ax*SHAPE_SIZE/az;
-		p2y[i] = HEIGHT/2+ay*SHAPE_SIZE/az;
+		p2x[i] = WIDTH/2+ax*CUBE_SIZE/az;
+		p2y[i] = HEIGHT/2+ay*CUBE_SIZE/az;
 	}
 	
 	fillMatrix(0);

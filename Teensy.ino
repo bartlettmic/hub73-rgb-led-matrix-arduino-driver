@@ -5,15 +5,15 @@
 #include "Utility.h"
 
 #include "Demos.h"
-//#include <EEPROM.h>
+#include <EEPROM.h>
 
-byte mode = 7;
+byte mode = 0;
 //volatile byte buttonTicks = 1;
 
 uint16_t ticks = 65535;
 
 void setup() {
-//    Serial.begin(38400);
+   Serial.begin(38400);
 
   const uint8_t PINS[] = {  //  76543210
     2,  3,  4,  5,  6,  7,  //D BGRBGR✕✕ Row 0-1
@@ -33,8 +33,8 @@ void setup() {
 
   MPU.setup(22, 23);
 
-//  mode = EEPROM.read(0);
-//  EEPROM.write(h0, ((mode + 1) % (sizeof(demoLoops) / sizeof(*demoLoops))));
+ mode = EEPROM.read(0);
+ EEPROM.write(0, ((mode + 1) % (sizeof(demoLoops) / sizeof(*demoLoops))));
 
   demoSetups[mode]();
   draw = demoLoops[mode];

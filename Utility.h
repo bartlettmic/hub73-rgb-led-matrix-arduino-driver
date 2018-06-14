@@ -24,8 +24,40 @@ static inline int8_t sgn(int val) {
   return 1;
 }
 
+//////////////////// Graphics primitives below
+
 void fillMatrix(int16_t color) {
   memset(matrix, color, sizeof(matrix));
+}
+
+void pixel(uint8_t x, uint8_t y, int16_t color) {         //Set pixel in buffer safely
+  if (x >= WIDTH || x < 0 || y < 0 || y >= HEIGHT) return;
+  matrix[y][x] = color;
+}
+
+void safeLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, const int16_t color) {
+  int32_t dy = y1 - y0, dx = x1 - x0, gradient, x, y, shift = 0x10;
+
+  if (abs(dx) > abs(dy)) {
+    // x variation is bigger than y variation
+    if (x1 < x0) {
+      std::swap(x0, x1);
+      std::swap(y0, y1);
+    }
+    gradient = (dy << shift) / dx ;
+
+    for (x = x0 , y = 0x8000 + (y0 << shift); x <= x1; ++x, y += gradient) pixel(x, y >> shift, color);
+  } 
+  else if (dy != 0) {
+    // y variation is bigger than x variation
+    if (y1 < y0) {
+      std::swap(x0, x1);
+      std::swap(y0, y1);
+    }
+    gradient = (dx << shift) / dy;
+    for (y = y0 , x = 0x8000 + (x0 << shift); y <= y1; ++y, x += gradient) pixel(x >> shift, y, color);
+  } 
+  else pixel(x0, y0, color);
 }
 
 void line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, const int16_t color) {
@@ -39,28 +71,21 @@ void line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, const int16_t color) {
     }
     gradient = (dy << shift) / dx ;
 
-    for (x = x0 , y = 0x8000 + (y0 << shift); x <= x1; ++x, y += gradient) {
-      matrix[y >> shift][x] = color;
-    }
-  } else if (dy != 0) {
+    for (x = x0 , y = 0x8000 + (y0 << shift); x <= x1; ++x, y += gradient) matrix[y >> shift][x] = color;
+  } 
+  else if (dy != 0) {
     // y variation is bigger than x variation
     if (y1 < y0) {
       std::swap(x0, x1);
       std::swap(y0, y1);
     }
     gradient = (dx << shift) / dy;
-    for (y = y0 , x = 0x8000 + (x0 << shift); y <= y1; ++y, x += gradient) {
-      matrix[y][x >> shift] = color;
-    }
-  } else {
-    matrix[y0][x0] = color;
-  }
+    for (y = y0 , x = 0x8000 + (x0 << shift); y <= y1; ++y, x += gradient) matrix[y][x >> shift] = color;
+  } 
+  else matrix[y0][x0] = color;
 }
 
-void pixel(uint8_t x, uint8_t y, int16_t color) {         //Set pixel in buffer safely
-  if (x >= WIDTH || x < 0 || y < 0 || y >= HEIGHT) return;
-  matrix[y][x] = color;
-}
+
 
 void circle(uint8_t x0, uint8_t y0, uint8_t radius, int16_t color) {
   uint8_t x = radius, y = 0;
